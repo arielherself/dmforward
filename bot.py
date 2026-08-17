@@ -89,7 +89,7 @@ def describe_content(message: Message) -> str:
 def format_forward(sender: User, message: Message) -> str:
     return (
         f'Sender: <a href="tg://user?id={sender.id}">{html.escape(display_name(sender))}</a>\n'
-        f"Search: #{sender.id}\n"
+        f"Search: #u{sender.id}\n"
         f"Content: {html.escape(describe_content(message))}"
     )
 
@@ -113,7 +113,7 @@ async def cmd_start(message: Message):
         "👋 I'm a secretary bot. I screen the private messages sent to your "
         "account — ignoring, deleting, or forwarding them to you right here "
         "in this chat.\n\n"
-        "<b>Setup</b> (requires Telegram Premium):\n"
+        "<b>Setup</b>:\n"
         "1. Open <b>Settings → Telegram Business → Chatbots</b> and add me.\n"
         "2. Grant me the permissions to <b>read messages</b> and "
         "<b>delete messages</b>.\n\n"
@@ -216,7 +216,8 @@ async def cmd_status(message: Message):
 
 @router.business_connection()
 async def on_connection(conn: BusinessConnection, bot: Bot):
-    await db.upsert_connection(conn.user_id, conn.id, conn.is_enabled)
+    owner_id = conn.user.id
+    await db.upsert_connection(owner_id, conn.id, conn.is_enabled)
 
     rights = getattr(conn, "rights", None)
     can_read = bool(getattr(rights, "can_read_messages", getattr(conn, "can_read_messages", False)))
@@ -231,7 +232,7 @@ async def on_connection(conn: BusinessConnection, bot: Bot):
             "Settings → Telegram Business → Chatbots."
         )
     try:
-        await bot.send_message(conn.user_id, "\n".join(lines))
+        await bot.send_message(owner_id, "\n".join(lines))
     except TelegramBadRequest:
         pass  # user has never started the bot
 

@@ -2,8 +2,9 @@
 
 A [secretary bot](https://core.telegram.org/bots/features#secretary-bots) that
 screens incoming private messages on your behalf. Connected through
-**Telegram Business**, it receives the messages sent to your account and, for
-each one, applies your configured behavior:
+**Telegram Business** (Settings → Telegram Business → Chatbots — free for all
+users, no Premium required), it receives the messages sent to your account
+and, for each one, applies your configured behavior:
 
 - **Ignore** — leave the message untouched
 - **Delete** — delete it
@@ -13,13 +14,13 @@ The forwarded summary looks like:
 
 ```
 Sender: <linked sender name>
-Search: #<sender user id>
+Search: #u<sender user id>
 Content: <text of the message; media shown as a placeholder, e.g. [Photo]>
 
 [ Add to whitelist ]
 ```
 
-Tapping the `#<id>` hashtag searches the DM for every summary from that
+Tapping the `#u<id>` hashtag searches the DM for every summary from that
 sender.
 
 Whitelisted senders' messages are always left untouched. Behavior and
@@ -28,13 +29,15 @@ whitelist are configured per user.
 ## Requirements
 
 - Python 3.11+
-- A Telegram account with **Telegram Premium** (Business features require it)
+- Any Telegram account (connecting a business chatbot is free for all users
+  since May 2026; Telegram Premium is **not** required)
 
 ## Setup
 
 1. Create a bot with [@BotFather](https://t.me/BotFather) and get its token.
 2. In BotFather, enable business mode for the bot:
    `/mybots` → select the bot → **Bot Settings** → **Telegram Business**.
+
 3. Install dependencies and run:
 
    ```bash
