@@ -50,6 +50,8 @@ whitelist are configured per user.
 4. **Start the bot in DM** (so it can message you), then in Telegram:
    **Settings → Telegram Business → Chatbots** → add the bot and grant it the
    permissions to **read messages** and **delete messages**.
+5. In the same screen, add **New Chats** (and also other chats on demand) to
+   **Included chats** — otherwise the bot won't see incoming messages.
 
 ## Configuration (in the bot's DM)
 
