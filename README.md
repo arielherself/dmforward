@@ -13,13 +13,16 @@ and, for each one, applies your configured behavior:
 The forwarded summary looks like:
 
 ```
-Sender: <linked sender name>
+Sender: <sender name>
 Search: #u<sender user id>
 Content: <text of the message; media shown as a placeholder, e.g. [Photo]>
+
+[ 👤 <sender name> ]   ← opens the sender's profile
 ```
 
 Tapping the `#u<id>` hashtag searches the DM for every summary from that
-sender.
+sender; the button opens the sender's profile (works even for senders
+without a username, subject to their privacy settings).
 
 Behavior is configured per user.
 

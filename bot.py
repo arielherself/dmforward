@@ -86,9 +86,18 @@ def describe_content(message: Message) -> str:
     return text or "[Unsupported message]"
 
 
+def sender_url(sender: User) -> str:
+    if sender.username:
+        return f"https://t.me/{sender.username}"
+    # tg://user?id= in a URL button is the documented way to link to a
+    # user by ID; whether it opens the profile depends on the sender's
+    # privacy settings.
+    return f"tg://user?id={sender.id}"
+
+
 def format_forward(sender: User, message: Message) -> str:
     return (
-        f'Sender: <a href="tg://user?id={sender.id}">{html.escape(display_name(sender))}</a>\n'
+        f"Sender: {html.escape(display_name(sender))}\n"
         f"Search: #u{sender.id}\n"
         f"Content: {html.escape(describe_content(message))}"
     )
@@ -218,12 +227,23 @@ async def on_business_message(message: Message, bot: Bot):
         return
 
     if mode == "forward_delete":
+        kb = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text=f"👤 {display_name(sender)}",
+                        url=sender_url(sender),
+                    )
+                ]
+            ]
+        )
         try:
             await bot.send_message(
                 owner_id,
                 format_forward(sender, message),
                 parse_mode="HTML",
                 disable_web_page_preview=True,
+                reply_markup=kb,
             )
         except TelegramBadRequest as e:
             # Owner hasn't started the bot (or blocked it) — can't deliver.
