@@ -126,7 +126,7 @@ async def cmd_start(message: Message):
         "1. Open <b>Settings → Telegram Business → Chatbots</b> and add me.\n"
         "2. Grant me the permissions to <b>read messages</b> and "
         "<b>delete messages</b>.\n"
-        "3. Add <b>Non-Contacts</b> (and also other chats on demand) to "
+        "3. Add <b>New Chats</b> (and also other chats on demand) to "
         "<b>Included chats</b>.\n\n"
         "<b>Configuration</b>:\n"
         "/mode — what to do with incoming messages\n"
