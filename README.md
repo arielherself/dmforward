@@ -16,15 +16,12 @@ The forwarded summary looks like:
 Sender: <linked sender name>
 Search: #u<sender user id>
 Content: <text of the message; media shown as a placeholder, e.g. [Photo]>
-
-[ Add to whitelist ]
 ```
 
 Tapping the `#u<id>` hashtag searches the DM for every summary from that
 sender.
 
-Whitelisted senders' messages are always left untouched. Behavior and
-whitelist are configured per user.
+Behavior is configured per user.
 
 ## Requirements
 
@@ -50,8 +47,8 @@ whitelist are configured per user.
 4. **Start the bot in DM** (so it can message you), then in Telegram:
    **Settings → Telegram Business → Chatbots** → add the bot and grant it the
    permissions to **read messages** and **delete messages**.
-5. In the same screen, add **New Chats** (and also other chats on demand) to
-   **Included chats** — otherwise the bot won't see incoming messages.
+5. In the same screen, add **Non-Contacts** (and also other chats on demand)
+   to **Included chats** — otherwise the bot won't see incoming messages.
 
 ## Configuration (in the bot's DM)
 
@@ -59,7 +56,6 @@ whitelist are configured per user.
 | --- | --- |
 | `/start` | Setup instructions |
 | `/mode` | Choose Ignore / Delete / Forward & delete |
-| `/whitelist` | List and remove whitelisted senders |
 | `/status` | Show current configuration |
 
 ## How it works
@@ -68,7 +64,7 @@ whitelist are configured per user.
   connected accounts; the bot deletes originals with
   `deleteBusinessMessages` and delivers summaries with a regular
   `sendMessage` to your DM (no Business permission needed for that).
-- Outgoing messages (sent by you) and whitelisted senders are never touched.
+- Outgoing messages (sent by you) are never touched.
 - If a summary can't be delivered (e.g. you never started the bot), the
   original message is kept.
 - Configuration is stored per user in a local SQLite database.
