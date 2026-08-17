@@ -2,7 +2,7 @@
 
 A [secretary bot](https://core.telegram.org/bots/features#secretary-bots) that
 screens incoming private messages on your behalf. Connected through
-**Telegram Business** (Settings → Telegram Business → Chatbots — free for all
+**chat automation** (My Profile → Edit → Chat Automation — free for all
 users, no Premium required), it receives the messages sent to your account
 and, for each one, applies your configured behavior:
 
@@ -48,8 +48,8 @@ Behavior is configured per user.
    Optionally set `DB_PATH` (defaults to `secretary.db`).
 
 4. **Start the bot in DM** (so it can message you), then in Telegram:
-   **Settings → Telegram Business → Chatbots** → add the bot and grant it the
-   permissions to **read messages** and **delete messages**.
+   **My Profile → Edit → Chat Automation** → add the bot and grant it the
+   permission to **delete messages** (read access is granted by default).
 5. In the same screen, add **New Chats** (and also other chats on demand) to
    **Included chats** — otherwise the bot won't see incoming messages.
 

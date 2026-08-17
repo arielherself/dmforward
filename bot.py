@@ -1,7 +1,7 @@
 """Telegram secretary bot.
 
-Connected to a user's account via Telegram Business (Settings -> Telegram
-Business -> Chatbots). For every incoming private message the bot applies the
+Connected to a user's account via chat automation (My Profile -> Edit ->
+Chat Automation). For every incoming private message the bot applies the
 user's configured behavior: ignore, delete, or forward a summary to the
 user's bot DM and delete the original.
 """
@@ -123,7 +123,7 @@ async def cmd_start(message: Message):
         "account — ignoring, deleting, or forwarding them to you right here "
         "in this chat.\n\n"
         "<b>Setup</b>:\n"
-        "1. Open <b>Settings → Telegram Business → Chatbots</b> and add me.\n"
+        "1. Open <b>My Profile → Edit → Chat Automation</b> and add me.\n"
         "2. Grant me the permissions to <b>read messages</b> and "
         "<b>delete messages</b>.\n"
         "3. Add <b>New Chats</b> (and also other chats on demand) to "
@@ -189,16 +189,16 @@ async def on_connection(conn: BusinessConnection, bot: Bot):
     await db.upsert_connection(owner_id, conn.id, conn.is_enabled)
 
     rights = getattr(conn, "rights", None)
-    can_read = bool(getattr(rights, "can_read_messages", getattr(conn, "can_read_messages", False)))
+    # Read access is granted by default and can't be revoked; only the
+    # delete permission is optional.
     can_delete = bool(getattr(rights, "can_delete_all_messages", False))
 
     lines = ["🔌 Business connection " + ("enabled." if conn.is_enabled else "paused.")]
-    lines.append(f"Read messages: {'✅' if can_read else '❌ missing'}")
     lines.append(f"Delete messages: {'✅' if can_delete else '❌ missing'}")
-    if not (can_read and can_delete):
+    if not can_delete:
         lines.append(
-            "\nI need both permissions to work — check "
-            "Settings → Telegram Business → Chatbots."
+            "\nI need the delete permission to work — check "
+            "My Profile → Edit → Chat Automation."
         )
     try:
         await bot.send_message(owner_id, "\n".join(lines))
